@@ -1,0 +1,26 @@
+{
+  "name": "uptask_nodejs",
+  "version": "1.0.0",
+  "description": "Proyecto UpTask con Node y MVC",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zackfair200/UpTask.git"
+  },
+  "author": "Alejandro Ponce Palau",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zackfair200/UpTask/issues"
+  },
+  "homepage": "https://github.com/Zackfair200/UpTask#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
