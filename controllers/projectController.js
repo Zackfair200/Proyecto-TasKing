@@ -20,7 +20,7 @@ exports.nuevoProyecto = (request, response) => {
   if (!nombre) {
     errores.push({ texto: "Agrega un Nombre al Proyecto" });
   }
-
+  
   response.render("NuevoProyecto", {
     nombre,
     nombrePagina: "Nuevo Proyecto",

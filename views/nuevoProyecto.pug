@@ -4,11 +4,13 @@ block contenido
     .contenido-principal 
         h1= nombrePagina
 
+        if errores
+            each err in errores
+                .alerta.error= err.texto
+
         form.agregar-proyecto(action="/nuevo-proyecto" method="POST")
             .campo 
                 label(for="nombre") Nombre Proyecto 
                 input(name="nombre" type="text" id="nombre" value=nombre placeholder="Nombre Proyecto") 
-            each err in errores || []
-                p  #{err.texto}
             .campo.enviar 
                 input(type="submit", value="Agregar" class="boton")
