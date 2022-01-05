@@ -3,6 +3,16 @@ const routes = require("./routes/index");
 const path = require("path");
 const bodyParser = require('body-parser')
 
+// Crear conexion a la BBDD
+const db = require('./config/db');
+
+// Importar el modelo
+require('./models/Proyectos')
+
+db.sync()
+.then(()=>console.log("Conectado al servidor!"))
+.catch((error)=>console.log(error))
+
 // Crear una aplicacion de express
 const app = express();
 
