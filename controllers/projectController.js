@@ -36,7 +36,7 @@ exports.nuevoProyecto = async (request, response) => {
       proyectos,
     });
   } else {
-    const proyecto = await Proyectos.create({ nombre });
+    await Proyectos.create({ nombre });
     response.redirect("/");
   }
 };
@@ -72,5 +72,29 @@ exports.formularioEditar = async (req, res) => {
     nombrePagina: "Editar Proyecto",
     proyectos,
     proyecto
-  })
-}
+  });
+};
+
+exports.actualizarProyecto = async (request, response) => {
+  const proyectos = await Proyectos.findAll();
+  const { nombre } = request.body;
+  let errores = [];
+  if (!nombre) {
+    errores.push({ texto: "Agrega un Nombre al Proyecto" });
+  }
+
+  if (errores.length > 0) {
+    response.render("NuevoProyecto", {
+      nombre,
+      nombrePagina: "Nuevo Proyecto",
+      errores,
+      proyectos,
+    });
+  } else {
+    await Proyectos.update(
+      { nombre: nombre },
+      { where: { id: request.params.id}}
+    );
+    response.redirect("/");
+  }
+};
