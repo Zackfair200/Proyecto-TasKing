@@ -33,6 +33,13 @@ if (btnEliminar){
                                 window.location.href = '/'
                             }, 3000);
                     })
+                    .catch(() => {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Ha surgido un error',
+                            text: 'No se ha podido eliminar el Proyecto'
+                        })
+                    })
 
               
     
