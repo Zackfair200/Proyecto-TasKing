@@ -1,7 +1,5 @@
-const express = require("express");
-const { response, request } = require("express");
-const res = require("express/lib/response");
 const Proyectos = require("../models/Proyectos");
+const Tareas = require('../models/Tareas');
 
 exports.projectHome = async (request, response) => {
   const proyectos = await Proyectos.findAll();
@@ -50,12 +48,22 @@ exports.proyectoPorUrl = async (req, res, next) => {
   });
   const [proyectos,proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
 
+  const tareas = await Tareas.findAll({
+    where: {
+      proyectoId: proyecto.id
+    },
+    include: [
+      { model: Proyectos }
+    ]
+  })
+
   if (!proyecto) return next();
 
   res.render("tareas", {
     nombrePagina: "Tareas del Proyecto",
     proyecto,
     proyectos,
+    tareas
   });
 };
 
