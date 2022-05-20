@@ -15,6 +15,9 @@ const Proyectos = db.define("proyectos", {
   url: {
     type: Sequelize.STRING(100),
   },
+  usuarioId: {
+    type: Sequelize.INTEGER,
+  }
 }, {
   hooks:{
     // Antes de insertar en la base de datos, traemos el objeto con la información del proyecto (nombre y url)

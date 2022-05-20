@@ -39,7 +39,9 @@ module.exports = function () {
   router.delete('/tareas/:id', tareasController.eliminarTarea);
 
   // Crear Nueva Cuenta
-  router.get('/crear-cuenta', usuariosController.formCrearCuenta)
+  router.get('/crear-cuenta', usuariosController.formCrearCuenta);
+  router.post('/crear-cuenta', usuariosController.crearCuenta);
+
 
   return router;
 };
