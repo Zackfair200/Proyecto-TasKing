@@ -25,7 +25,7 @@ if (btnEliminar){
                     .then(function(respuesta){
                         console.log(respuesta)
                         Swal.fire(
-                            'Eliminado!',
+                            '¡Eliminado!',
                             respuesta.data,
                             'success'
                           );
