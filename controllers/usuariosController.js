@@ -6,16 +6,21 @@ exports.formCrearCuenta = (req, res) => {
     })
 }
 
-exports.crearCuenta = (req, res) => {
+exports.crearCuenta = async (req, res) => {
     // Leemos los datos
     const {email, password} = req.body;
 
-    // Creamos el usuario
-    Usuarios.create({
-        email,
-        password
-    })
-    .then(() => {
+    try {
+        // Creamos el usuario
+        await Usuarios.create({
+            email,
+            password
+        })
         res.redirect('/iniciar-sesion')
-    })
+    } catch (error) {
+        res.render('crearCuenta', {
+            error: error.error,
+            nombrePagina: 'Crear cuenta en TasKing'
+        })
+    }
 }

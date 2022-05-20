@@ -2,6 +2,7 @@ const express = require("express");
 const routes = require("./routes/index");
 const path = require("path");
 const bodyParser = require("body-parser");
+const flash = require('connect-flash');
 
 // Importamos helpers (importamos nuestras funciones)
 const helpers = require("./helpers");
@@ -21,6 +22,9 @@ db.sync()
 // Crear una aplicacion de express
 const app = express();
 
+// Habilitamos el "bodyParser" para poder leer los datos del formulario
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Donde cargar los archivos estáticos
 app.use(express.static("public"));
 
@@ -30,6 +34,9 @@ app.set("view engine", "pug");
 // Añadimos la carpeta de las vistas
 app.set("views", path.join(__dirname, "./views"));
 
+// Agregar flash messages
+app.use(flash());
+
 // Pasar var dump a la aplicacion
 app.use((req, res, next) => {
   res.locals.year = 2022;
@@ -37,8 +44,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Habilitamos el "bodyParser" para poder leer los datos del formulario
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", routes());
 
