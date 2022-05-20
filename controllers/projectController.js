@@ -108,9 +108,19 @@ exports.actualizarProyecto = async (request, response) => {
 };
 
 exports.eliminarProyecto = async (req, res, next) => {
-  const {urlProyecto} = req.query;
+  const {urlProyecto, idProyecto} = req.query;
 
-  const resultado = await Proyectos.destroy({where: { url : urlProyecto}});
+  await Tareas.destroy({
+    where: {
+      proyectoId: idProyecto
+    }
+  });
+
+  const resultado = await Proyectos.destroy({
+    where: {
+      url : urlProyecto
+    }
+  });
 
   if(!resultado){
     return next();

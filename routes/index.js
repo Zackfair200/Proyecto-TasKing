@@ -26,10 +26,16 @@ module.exports = function () {
   );
 
   // Eliminar Proyecto
-  router.delete('/proyectos/:url', projectController.eliminarProyecto);
+  router.delete('/proyectos/:url/:id', projectController.eliminarProyecto);
 
   // Tareas
   router.post('/proyectos/:url', tareasController.agregarTarea);
+
+  // Actualizar Tarea
+  router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
+
+  // Eliminar Tarea
+  router.delete('/tareas/:id', tareasController.eliminarTarea);
 
   return router;
 };
