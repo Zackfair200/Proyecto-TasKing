@@ -5,6 +5,7 @@ const {body} = require('express-validator/check')
 // importamos el controlador
 const projectController = require("../controllers/projectController");
 const tareasController = require('../controllers/tareasController');
+const usuariosController = require('../controllers/usuariosController');
 
 module.exports = function () {
   // Ruta para el home
@@ -36,6 +37,9 @@ module.exports = function () {
 
   // Eliminar Tarea
   router.delete('/tareas/:id', tareasController.eliminarTarea);
+
+  // Crear Nueva Cuenta
+  router.get('/crear-cuenta', usuariosController.formCrearCuenta)
 
   return router;
 };
