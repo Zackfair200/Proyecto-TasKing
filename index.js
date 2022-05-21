@@ -3,6 +3,8 @@ const routes = require("./routes/index");
 const path = require("path");
 const bodyParser = require("body-parser");
 const flash = require('connect-flash');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // Importamos helpers (importamos nuestras funciones)
 const helpers = require("./helpers");
@@ -22,14 +24,14 @@ db.sync()
 // Crear una aplicacion de express
 const app = express();
 
-// Habilitamos el "bodyParser" para poder leer los datos del formulario
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Donde cargar los archivos estáticos
 app.use(express.static("public"));
 
 // Habilitamos el template engine 'Pug'
 app.set("view engine", "pug");
+
+// Habilitamos el "bodyParser" para poder leer los datos del formulario
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Añadimos la carpeta de las vistas
 app.set("views", path.join(__dirname, "./views"));
@@ -37,10 +39,20 @@ app.set("views", path.join(__dirname, "./views"));
 // Agregar flash messages
 app.use(flash());
 
+app.use(cookieParser());
+
+// Sessiones nos permiten navegar entre las distintas paginas sin volvernos a autenticar
+app.use(session({
+  secret: 'supersecreto',
+  resave: false,
+  saveUninitialized: false
+}));
+
 // Pasar var dump a la aplicacion
 app.use((req, res, next) => {
   res.locals.year = 2022;
   res.locals.vardump = helpers.vardump;
+  res.locals.mensajes = req.flash();
   next();
 });
 

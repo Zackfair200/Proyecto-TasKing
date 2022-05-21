@@ -18,9 +18,12 @@ exports.crearCuenta = async (req, res) => {
         })
         res.redirect('/iniciar-sesion')
     } catch (error) {
+        req.flash('error', error.errors.map(error => error.message))
         res.render('crearCuenta', {
-            errores: error.errors,
-            nombrePagina: 'Crear cuenta en TasKing'
+            mensajes: req.flash(),
+            nombrePagina: 'Crear cuenta en TasKing',
+            email: email,
+            password: password
         })
     }
 }
