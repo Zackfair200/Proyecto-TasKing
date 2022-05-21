@@ -6,6 +6,12 @@ exports.formCrearCuenta = (req, res) => {
     })
 }
 
+exports.formIniciarSesion = (req, res) => {
+    res.render('iniciarSesion', {
+        nombrePagina: 'Iniciar Sesión en TasKing'
+    })
+}
+
 exports.crearCuenta = async (req, res) => {
     // Leemos los datos
     const {email, password} = req.body;
