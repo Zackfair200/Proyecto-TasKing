@@ -221,7 +221,8 @@ body.index {
     align-items: center;
     justify-content: space-between;
     font-size: 1.4rem;
-    border-bottom: 1px solid #d1d1d1;
+    border-bottom: 3px solid #607D8B;
+    border-bottom-style: dotted;
 }
 .listado-pendientes ul li:last-of-type {
     border-bottom: none;

@@ -20,7 +20,7 @@ const Proyectos = db.define("proyectos", {
   }
 }, {
   hooks:{
-    // Antes de insertar en la base de datos, traemos el objeto con la información del proyecto (nombre y url)
+      // Antes de insertar en la base de datos, traemos el objeto con la información del proyecto (nombre y url)
     beforeCreate(proyecto){
       // La variable 'URL' almacena: El nombre del proyecto concatenado con '-' (gracias a slug()) y en minusculas (gracias a toLowerCase())
       const url = slug(proyecto.nombre).toLowerCase();
