@@ -6,7 +6,10 @@ html(lang="en")
         .contenedor-formulario
             h1 Iniciar Sesión en Tasking
 
-            form#formulario.caja.caja-login(method="POST" action="/crear-cuenta")
+            if error 
+                p.alerta.error= error 
+
+            form#formulario.caja.caja-login(method="POST" action="/iniciar-sesion")
                 .campo 
                     label(for="email") E-mail: 
                     input(type="text" name="email" placeholder="Tu Email" value= email) 

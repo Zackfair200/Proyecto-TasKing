@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const passport = require('./config/passport');
 
 // Importamos helpers (importamos nuestras funciones)
 const helpers = require("./helpers");
@@ -47,6 +48,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Pasar var dump a la aplicacion
 app.use((req, res, next) => {

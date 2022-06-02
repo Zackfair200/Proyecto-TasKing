@@ -18,13 +18,17 @@ passport.use(
         async (email, password, done) => {
             // COMPROBAMOS EL CORREO, si existe, entrará en el try y usuario almacenara la promesa que devuelve la peticion a la BBDD
             try {
-                const usuario = await Usuarios.findAll({
+                const usuario = await Usuarios.findOne({
                     where: {email: email}
                 })
                 // COMPROBAMOS SI LA CONTRASEÑA NO COINCIDE
-                if(usuario.verificarPassword(password)){
-
+                if(!usuario.verificarPassword(password)){
+                    return done(null, false, {
+                        message: 'Password Incorrecto'
+                    })
                 }
+
+                return done(null, usuario);
 
             // Si no existe el correo el error lo captura el catch y devolverá un mensaje, ya que los otros dos parámetros no los necesitamos (error, usuario, mensaje)
             } catch (error) {
@@ -33,6 +37,17 @@ passport.use(
                 })
             }
         }
-
     )
-)
+);
+
+// Passport necesita serializar el usuario y deserializarlo para acceder a los valores del usuario...
+// ...vamos que lo de abajo es obligatorio con passport, o no se pueden acceder a los valores del objeto usuario
+passport.serializeUser((usuario, callback) => {
+    callback(null, usuario);
+});
+
+passport.deserializeUser((usuario, callback) => {
+    callback(null, usuario);
+});
+
+module.exports = passport;
