@@ -10,34 +10,63 @@ const authController = require('../controllers/authController');
 
 module.exports = function () {
   // Ruta para el home
-  router.get("/", projectController.projectHome);
-  router.get("/nuevo-proyecto", projectController.formularioProyecto);
+  router.get("/",
+  authController.usuarioAutenticado,
+  projectController.projectHome
+  );
+
+  router.get("/nuevo-proyecto",
+  authController.usuarioAutenticado,
+  projectController.formularioProyecto
+  );
+
   router.post("/nuevo-proyecto",
-    body('nombre').not().isEmpty().trim().escape(),
-    projectController.nuevoProyecto
+  authController.usuarioAutenticado,
+  body('nombre').not().isEmpty().trim().escape(),
+  projectController.nuevoProyecto
   );
 
   // Listar Proyecto
-  router.get('/proyectos/:url', projectController.proyectoPorUrl);
+  router.get('/proyectos/:url',
+  authController.usuarioAutenticado,
+  projectController.proyectoPorUrl
+  );
 
   // Actualizar el Proyecto
-  router.get("/proyecto/editar/:id", projectController.formularioEditar);
+  router.get("/proyecto/editar/:id",
+  authController.usuarioAutenticado,
+  projectController.formularioEditar
+  );
+
   router.post("/nuevo-proyecto/:id",
-    body('nombre').not().isEmpty().trim().escape(),
-    projectController.actualizarProyecto
+  authController.usuarioAutenticado,
+  body('nombre').not().isEmpty().trim().escape(),
+  projectController.actualizarProyecto
   );
 
   // Eliminar Proyecto
-  router.delete('/proyectos/:url/:id', projectController.eliminarProyecto);
+  router.delete('/proyectos/:url/:id',
+  authController.usuarioAutenticado,
+  projectController.eliminarProyecto
+  );
 
   // Tareas
-  router.post('/proyectos/:url', tareasController.agregarTarea);
+  router.post('/proyectos/:url',
+  authController.usuarioAutenticado,
+  tareasController.agregarTarea
+  );
 
   // Actualizar Tarea
-  router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
+  router.patch('/tareas/:id',
+  authController.usuarioAutenticado,
+  tareasController.cambiarEstadoTarea
+  );
 
   // Eliminar Tarea
-  router.delete('/tareas/:id', tareasController.eliminarTarea);
+  router.delete('/tareas/:id',
+  authController.usuarioAutenticado,
+  tareasController.eliminarTarea
+  );
 
   // Crear Nueva Cuenta
   router.get('/crear-cuenta', usuariosController.formCrearCuenta);
@@ -45,7 +74,10 @@ module.exports = function () {
 
   // Iniciar sesion
   router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
-  router.post('/iniciar-sesion', authController.autenticarUsuario)
+  router.post('/iniciar-sesion', authController.autenticarUsuario);
+
+  // Cerrar sesion
+  router.get('/cerrar-sesion', authController.cerrarSesion);
 
 
   return router;
