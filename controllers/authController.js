@@ -10,6 +10,7 @@ exports.autenticarUsuario = passport.authenticate('local', {
     badRequestMessage: 'Ambos Campos son Obligatorios'
 });
 
+// Comprobar si el usuario esta autenticado
 exports.usuarioAutenticado = (req, res, next) => {
     if(req.isAuthenticated()){
         return next();
@@ -18,6 +19,7 @@ exports.usuarioAutenticado = (req, res, next) => {
     return res.redirect('/iniciar-sesion');
 }
 
+// Cerrar sesion (destroy es un metodo de session que rompe la sesion)
 exports.cerrarSesion = (req, res) => {
     req.session.destroy(() => {
         res.redirect('/iniciar-sesion');

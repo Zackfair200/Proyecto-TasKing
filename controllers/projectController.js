@@ -2,7 +2,13 @@ const Proyectos = require("../models/Proyectos");
 const Tareas = require('../models/Tareas');
 
 exports.projectHome = async (request, response) => {
-  const proyectos = await Proyectos.findAll();
+
+  const usuarioId = response.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId: usuarioId
+    }
+  });
 
   response.render("index", {
     nombrePagina: "Proyectos ",
@@ -11,7 +17,14 @@ exports.projectHome = async (request, response) => {
 };
 
 exports.formularioProyecto = async (request, response) => {
-  const proyectos = await Proyectos.findAll();
+
+  const usuarioId = response.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId: usuarioId
+    }
+  });
+
   response.render("nuevoProyecto", {
     nombrePagina: "Nuevo Proyecto",
     proyectos,
@@ -19,7 +32,14 @@ exports.formularioProyecto = async (request, response) => {
 };
 
 exports.nuevoProyecto = async (request, response) => {
-  const proyectos = await Proyectos.findAll();
+
+  const usuarioId = response.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId: usuarioId
+    }
+  });
+
   const { nombre } = request.body;
   let errores = [];
   if (!nombre) {
@@ -34,16 +54,25 @@ exports.nuevoProyecto = async (request, response) => {
       proyectos,
     });
   } else {
-    await Proyectos.create({ nombre });
+    const usuarioId = response.locals.usuario.id;
+    await Proyectos.create({ nombre, usuarioId });
     response.redirect("/");
   }
 };
 
 exports.proyectoPorUrl = async (req, res, next) => {
-  const proyectosPromise = Proyectos.findAll();
+
+  const usuarioId = res.locals.usuario.id;
+  const proyectosPromise = Proyectos.findAll({
+    where: {
+      usuarioId: usuarioId
+    }
+  });
+
   const proyectoPromise = Proyectos.findOne({
     where: {
-      url: req.params.url
+      url: req.params.url,
+      usuarioId: usuarioId
     }
   });
   const [proyectos,proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
@@ -68,7 +97,14 @@ exports.proyectoPorUrl = async (req, res, next) => {
 };
 
 exports.formularioEditar = async (req, res) => {
-  const proyectosPromise = Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectosPromise = Proyectos.findAll({
+    where: {
+      usuarioId: usuarioId,
+      usuarioId: usuarioId
+    }
+  });
+
   const proyectoPromise = Proyectos.findOne({
     where: {
       id: req.params.id
@@ -84,7 +120,13 @@ exports.formularioEditar = async (req, res) => {
 };
 
 exports.actualizarProyecto = async (request, response) => {
-  const proyectos = await Proyectos.findAll();
+  const usuarioId = response.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId: usuarioId
+    }
+  });
+
   const { nombre } = request.body;
   let errores = [];
   if (!nombre) {

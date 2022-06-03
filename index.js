@@ -57,6 +57,7 @@ app.use((req, res, next) => {
   res.locals.year = 2022;
   res.locals.vardump = helpers.vardump;
   res.locals.mensajes = req.flash();
+  res.locals.usuario = {...req.user} || null ;
   next();
 });
 
