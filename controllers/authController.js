@@ -1,5 +1,7 @@
 const passport = require('passport');
 const Usuarios = require('../models/Usuarios');
+const {Sequalize, Op} = require('sequelize');
+const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');//--> Utilidad incluida en NodeJS para generar tokens
 
 // Autenticar usuario
@@ -53,6 +55,47 @@ exports.enviarToken = async (req, res) => {
     res.redirect(`/reestablecer/${ usuario.token }`);
 }
 
-exports.resetPassword = async (req, res) => {
-    res.json(req.params.token);
+exports.validarToken = async (req, res) => {
+    const usuario = await Usuarios.findOne({
+        where: {
+            token: req.params.token
+        }
+    });
+
+    if(!usuario){
+        req.flash('error', 'No Válido');
+        res.redirect('/reestablecer');
+    }
+
+    res.render('resetPassword', {
+        nombrePagina: 'Reestablecer Contraseña'
+    })
+}
+
+exports.actualizarPassword = async (req, res) => {
+    let fechaActual = new Date();
+    const usuario = await Usuarios.findOne({
+        where: {
+            token: req.params.token,
+            expiracion: {
+                [Op.gte]: fechaActual
+            }
+        }
+    });
+
+    if(!usuario){
+        req.flash('error', 'No Válido');
+        res.redirect('/reestablecer');
+    }
+
+    // Encriptamos la contraseña, reseteamos el token, reseteamos la fecha de expiracion y guardamos en la bbdd
+    usuario.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10) );
+    usuario.token = null;
+    usuario.expiracion = null;
+    await usuario.save();
+    
+
+    req.flash('correcto', 'Contraseña modificada correctamente');
+    res.redirect('/iniciar-sesion');
+
 }
