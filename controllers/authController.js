@@ -3,6 +3,7 @@ const Usuarios = require('../models/Usuarios');
 const {Sequalize, Op} = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');//--> Utilidad incluida en NodeJS para generar tokens
+const enviarEmail = require('../handlers/email');
 
 // Autenticar usuario
 // Usamos un método de passport llamado authenticate para que, una vez validado tome una decisión...
@@ -52,7 +53,18 @@ exports.enviarToken = async (req, res) => {
 
     // Ruta para reset del token
     const resetUrl = `http://${req.headers.host}/reestablecer/${usuario.token}`;
-    res.redirect(`/reestablecer/${ usuario.token }`);
+
+    // Envia el correo con el token
+    await enviarEmail.enviar({
+        usuario,
+        subject: 'Reestablecer Contraseña',
+        resetUrl,
+        archivo: 'reestablecer-password'
+    });
+
+    // Terminar
+    req.flash('correcto', 'Se ha enviado un email a tu correo');
+    res.redirect('/iniciar-sesion');
 }
 
 exports.validarToken = async (req, res) => {
