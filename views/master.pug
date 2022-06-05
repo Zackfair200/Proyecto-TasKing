@@ -4,25 +4,24 @@ html(lang="en")
         include partials/header
     body
         header.barra
-            h1 TasKing - Administrador de Proyectos
+            h1 TasKing - ADMINISTRADOR DE PROYECTOS
             a(href="/cerrar-sesion") Cerrar Sesión 
 
-        main.contenedor 
+        main.contenedor  
             aside.contenedor-proyectos
                 .panel.crear-proyecto 
-                    a(href="/nuevo-proyecto" class="boton") Nuevo Proyecto
-                        span +
+                    a(href="/nuevo-proyecto" class="boton") 
+                        span Nuevo Proyecto 💡
                 .panel.lista-proyectos 
-                    h2 Proyectos 
+                    h2 PROYECTOS 
                     ul#proyectos.proyectos
                         if(proyectos.length)
                             each proyecto in proyectos
                                 li 
                                     a(href=`/proyectos/${proyecto.url}`)= proyecto.nombre
                                 
-                            
+             
             block contenido
                 
-            //- pre= vardump(proyectos)
             
         script(src='/dist/bundle.js')
