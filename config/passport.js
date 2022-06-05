@@ -19,7 +19,10 @@ passport.use(
             // COMPROBAMOS EL CORREO, si existe, entrará en el try y usuario almacenara la promesa que devuelve la peticion a la BBDD
             try {
                 const usuario = await Usuarios.findOne({
-                    where: {email: email}
+                    where: {
+                        email: email,
+                        confirmado: 1
+                    }
                 })
                 // COMPROBAMOS SI LA CONTRASEÑA NO COINCIDE
                 if(!usuario.verificarPassword(password)){
