@@ -5,15 +5,8 @@ const htmlToText = require('html-to-text');
 const util = require('util');
 const emailConfig = require('../config/email');
 
-// Traigo la configuracion directamente de https://nodemailer.com/about/ pero los valores los traigo de nuestro fichero en config
-let transport = nodemailer.createTransport({
-    host: emailConfig.host,
-    port: emailConfig.port,
-    auth: {
-        user: emailConfig.user,
-        pass: emailConfig.pass,
-    },
-});
+// Declaramos el primer parámetro del envio, que es la llamada a las credenciales de la app Mailtrap
+let transport = nodemailer.createTransport(emailConfig);
 
 // Genero el html
 const generarHTML = (archivo, opciones={}) => {
